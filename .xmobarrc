@@ -1,0 +1,68 @@
+Config { 
+	    font = "xft:SFN 
+	display:size=9,FontAwesome:size=9" 
+        , bgColor = "black"
+        , fgColor = "#c2c2c2"
+	, position = TopW L 100
+	, commands = [
+             -- Run Cpu ["-L","3","-H","50","--normal","#80ff00","--high","red"] 10
+               Run MultiCpu       [ "--template" , "cpu:<total0>% <total1>%"
+                                    , "--Low"      , "50"         -- units: %
+                                    , "--High"     , "85"         -- units: %
+                                    , "--low"      , "#80ff00"
+                                    , "--normal"   , "darkorange"
+                             ,        "--high"     , "darkred"
+                             ] 10
+             , Run CpuFreq ["-t", "<cpu0> <cpu1> GHz", "-L", "0", "-H", "2", "-l", "lightblue", "-n","white", "-h", "red"] 50
+             , Run Memory   [ "-t" ,"mem:<used> M (<usedratio>%)"
+                             , "--Low"      , "20"        -- units: %
+                             , "--High"     , "80"        -- units: %
+                             , "--low"      , "lightblue"
+                             , "--normal"   , "green"
+                             , "--high"     , "red"
+                             ] 10    
+             , Run Swap ["-t","Swap:<usedratio>%","-p","2","-c"," "] 10
+             , Run Date "%d.%m.%Y" "date1" 10
+             , Run Date "%H:%M:%S" "date2" 10
+             , Run Date "%a" "date3" 10
+             , Run CoreTemp ["-t", "<core0>ºC <core1>ºC","-L", "40", "-H", "60","-l", "lightblue", "-n", "gray90", "-h", "red"] 50
+             , Run Kbd   [   ("us"         , "<fc=red>US</fc>")
+                           , ("ru"         , "<fc=#80ff00>RU</fc>")
+                           , ("ua"         , "<fc=cyan>UA</fc>")
+                           , ("es"         , "<fc=orange>ES</fc>")
+                           , ("de"         , "<fc=brown>DE</fc>")
+                           , ("fr"         , "<fc=pink>FR</fc>")
+                           , ("pt"         , "<fc=green>PT</fc>")
+                           , ("it"         , "<fc=yellow>IT</fc>")
+                              ]
+	     --, Run Battery ["-t","Batt:<left>% <timeleft>","-L","30","-H","75","-h","#80ff00","-n","#ffff00","-l","red", "--"] 10
+             , Run Battery   [ "--template" , "Batt: <acstatus>"
+                             , "--Low"      , "20"        -- units: %
+                             , "--High"     , "80"        -- units: %
+                             , "--low"      , "red"
+                             , "--normal"   , "orange"
+                             , "--high"     , "green"
+
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                       , "-o"	, "<left>% (<timeleft>)"
+                                       -- AC "on" status
+                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                       -- charged status
+                                       , "-i"	, "<fc=#00ff80>Charged</fc>"
+                             ] 50
+                            , Run Brightness ["-t", " <percent>%"] 60
+       --, Run Weather "UKHH" ["-t","<station>: <tempC>C <rh>%","-L","18","-H","25","--normal","#80ff00","--high","red","--low","lightblue"] 36000
+             , Run Uptime ["-t","Up:<days>d:<hours>h:<minutes>m"] 10
+            -- , Run TopProc ["-t","<both1> <both2> <both3>"] 30
+            -- , Run TopMem ["-t","<both1> <both2> <both3>"] 30
+             , Run Locks
+             , Run StdinReader
+             , Run Com "/bin/bash" ["-c", "~/.xmonad/getvolume.sh"] "myVolume" 10
+             , Run Com "/bin/bash" ["-c", "~/.xmonad/volume.sh"] "volumeBar" 10
+             ]
+, sepChar = "%"				
+, alignSep = "}{"	
+, template = "%StdinReader%  }{  <fc=#f4a460>%multicpu%</fc> <fc=#32cd32>%cpufreq%</fc> <fc=green>%coretemp%</fc> <fc=#ffffcc>%memory%</fc>*<fc=#ff69b4>%swap%</fc>|<fc=cyan>%uptime%</fc>|<fc=#ff69b4>%kbd%</fc>|<fc=#00ff80>%locks%</fc>|<fc=#80ff00>%myVolume%</fc>|<fc=#ff3f1f>%volumeBar%</fc>|<fc=#00ff80>%bright%</fc>|<fc=#ffffcc>%battery%</fc>|<fc=green>%date3%</fc>-<fc=cyan>%date1%</fc>|<fc=#80ff00>%date2%</fc>"
+}
+ 

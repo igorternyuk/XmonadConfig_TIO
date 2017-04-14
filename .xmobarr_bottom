@@ -1,0 +1,25 @@
+Config { 
+  font = "xft:SFN 
+	display:size=9,FontAwesome:size=9" 
+, bgColor = "black"
+, fgColor = "#c2c2c2"
+, position = BottomW L 100
+, commands = [   
+	         Run Network "eth0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+	       , Run Network "eth1" ["-L","0","-H","32", "--normal","green","--high","red"] 10
+	       , Run Network "wlan0" ["-L","0","-H","32", "--normal","green","--high","red"] 10
+	       , Run Network "ppp0" ["-L","0","-H","32", "--normal","green","--high","red"] 10
+           , Run Com "/bin/bash" ["-c", "~/.xmonad/mocpinfo.sh"] "mocp" 30
+	       , Run DiskU [("/", ": <free>/<size>"), ("/media/data",": <free>/<size>"), ("/media/data2",": <free>/<size>"),
+                 ("/media/music","♫: <free>/<size>"), ("/media/igor/data",": <free>/<size>"), ("/media/igor/data2",": <free>/<size>"),
+                 ("/media/igor/music","♫: <free>/<size>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
+               , Run DiskIO [("/", "<read><write>")] ["-L","0","-H","5000","--normal","green","--high","red"] 10
+               , Run TopProc ["-t","<both1> "] 30
+               , Run TopMem ["-t","<both1> "] 30
+               , Run Com "hddtemp" ["/dev/sda", "-n"] "hddtmpr" 600
+               , Run Com "/bin/bash" ["-c", "~/.xmonad/wireless.sh"] "wifi" 30
+             ]
+, sepChar = "%"
+, alignSep = "}{"
+, template = "<fc=#00ff80>%disku%</fc>|<fc=#fcd455>HDD:%hddtmpr%°C</fc>|<fc=#ff4365>wifi:%wifi%</fc>|<fc=#00ff80> %top%</fc> <fc=cyan>%topmem%</fc>|<fc=#ffd700>IO:</fc><fc=#4585f2>%diskio%</fc>|<fc=#0e8146>NW:</fc><fc=#00ff80>%eth0%</fc> <fc=#00ff80>%wlan0%</fc> <fc=#00ff80>%ppp0%</fc>|<fc=#0e8146>☊:</fc>%mocp%"
+}
